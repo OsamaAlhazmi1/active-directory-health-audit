@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="AD.HealthAudit.API/AD.HealthAudit.API.csproj" />
+  <Project Path="AD.HealthAudit.UI/AD.HealthAudit.UI.csproj" />
+</Solution>
