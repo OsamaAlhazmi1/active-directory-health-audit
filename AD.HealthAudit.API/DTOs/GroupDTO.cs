@@ -6,8 +6,8 @@ public record GroupDTO
 (
     int Id, 
     string Groupname,
-    string [] Users, 
-    string [] Computers
+    int Users, 
+    int [] Computers
 
 );
 

@@ -4,7 +4,8 @@ public record UserDTO
 (
     int Id, 
     string Username,
-    string Status
+    string AccountStatus,
+    string PasswordStatus
 
 );
 

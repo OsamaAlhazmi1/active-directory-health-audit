@@ -4,7 +4,7 @@ public record DomainDTO
 (
     int Id, 
     string DomainName,
-    string [] DomainControllers
+    int DCsNumber
 
 );
 

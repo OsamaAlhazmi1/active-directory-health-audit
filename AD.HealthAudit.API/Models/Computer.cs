@@ -14,7 +14,7 @@ public class Computer
 
     public string Name { get; set; } = "";
 
-    public ComputerStatus status { get; set; }
+    public ComputerStatus Status { get; set; }
 
 
 

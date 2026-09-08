@@ -2,11 +2,11 @@ using AD.HealthAudit.API.DTOs;
 
 namespace AD.HealthAudit.API.EndPoints;
 
-public static class UserEndpoint
+public static class GroupEndpoint
 {
 
     
-    public static void  MapUserEndpoints(this WebApplication app)
+    public static void  MapGroupsEndpoints(this WebApplication app)
     {
      
 
