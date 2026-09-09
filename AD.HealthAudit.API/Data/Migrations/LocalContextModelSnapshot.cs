@@ -2,19 +2,16 @@
 using AD.HealthAudit.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace AD.HealthAudit.API.DataMigration
+namespace AD.HealthAudit.API.Data.Migrations
 {
     [DbContext(typeof(LocalContext))]
-    [Migration("20260908082723_InitalCreate")]
-    partial class InitalCreate
+    partial class LocalContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.11");

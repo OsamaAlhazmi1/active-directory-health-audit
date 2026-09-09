@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace AD.HealthAudit.API.DataMigration
+namespace AD.HealthAudit.API.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitalCreate : Migration
+    public partial class loaclDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
