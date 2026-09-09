@@ -14,5 +14,6 @@ app.MapUserEndpoints();
 app.MapComputerEndpoints();
 app.MapDomainEndpoints();
 app.MapGroupsEndpoints();
+app.MapDashboardEndpoints();
 
 app.Run();
