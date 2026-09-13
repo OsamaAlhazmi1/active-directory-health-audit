@@ -9,12 +9,15 @@
 
 <div class="dashboard">
 
+    <!-- ================= HEADER ================= -->
+
     <div class="dashboard-header">
         <div>
             <h1>Active Directory Health</h1>
             <p>Overview of your Active Directory environment</p>
         </div>
     </div>
+
 
     @if (dashboard is null)
     {
@@ -24,10 +27,14 @@
     }
     else
     {
+        <!-- ================= MAIN STATISTICS ================= -->
+
         <div class="stats-grid">
 
-            <!-- Users -->
+            <!-- USERS -->
+
             <div class="stat-card">
+
                 <div class="stat-card-header">
                     <span>Users</span>
                     <span class="stat-icon">👤</span>
@@ -38,6 +45,7 @@
                 </div>
 
                 <div class="stat-details">
+
                     <span class="success">
                         @dashboard.EnabledUsers Enabled
                     </span>
@@ -45,12 +53,16 @@
                     <span class="danger">
                         @dashboard.DisabledUsers Disabled
                     </span>
+
                 </div>
+
             </div>
 
 
-            <!-- Computers -->
+            <!-- COMPUTERS -->
+
             <div class="stat-card">
+
                 <div class="stat-card-header">
                     <span>Computers</span>
                     <span class="stat-icon">💻</span>
@@ -61,6 +73,7 @@
                 </div>
 
                 <div class="stat-details">
+
                     <span class="success">
                         @dashboard.EnabledComputers Enabled
                     </span>
@@ -68,12 +81,16 @@
                     <span class="danger">
                         @dashboard.DisabledComputers Disabled
                     </span>
+
                 </div>
+
             </div>
 
 
-            <!-- Groups -->
+            <!-- GROUPS -->
+
             <div class="stat-card">
+
                 <div class="stat-card-header">
                     <span>Groups</span>
                     <span class="stat-icon">👥</span>
@@ -86,11 +103,14 @@
                 <div class="stat-details">
                     Active Directory Groups
                 </div>
+
             </div>
 
 
-            <!-- Expired Passwords -->
+            <!-- EXPIRED PASSWORDS -->
+
             <div class="stat-card">
+
                 <div class="stat-card-header">
                     <span>Expired Passwords</span>
                     <span class="stat-icon">🔐</span>
@@ -101,6 +121,7 @@
                 </div>
 
                 <div class="stat-details">
+
                     @if (dashboard.ExpiredPasswords == 0)
                     {
                         <span class="success">
@@ -113,20 +134,146 @@
                             ⚠ Users require attention
                         </span>
                     }
+
                 </div>
+
             </div>
 
         </div>
+
+
+        <!-- ================= DOMAIN HEALTH ================= -->
+
+        @if (domainDashboard is not null)
+        {
+            <div class="domain-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Domain Health</h2>
+                        <p>HQ Active Directory domain</p>
+                    </div>
+
+                    <span class="health-badge @GetDomainHealthClass()">
+                        @GetDomainHealthIcon() @GetDomainHealthStatus()
+                    </span>
+
+                </div>
+
+
+                <div class="domain-grid">
+
+                    <!-- TOTAL DCs -->
+
+                    <div class="domain-card">
+
+                        <span class="domain-card-title">
+                            Domain Controllers
+                        </span>
+
+                        <span class="domain-card-number">
+                            @domainDashboard.NumberOfDCs
+                        </span>
+
+                    </div>
+
+
+                    <!-- AVAILABLE DCs -->
+
+                    <div class="domain-card">
+
+                        <span class="domain-card-title">
+                            Available DCs
+                        </span>
+
+                        <span class="domain-card-number success">
+                            @domainDashboard.AvailableDCs
+                        </span>
+
+                    </div>
+
+
+                    <!-- UNAVAILABLE DCs -->
+
+                    <div class="domain-card">
+
+                        <span class="domain-card-title">
+                            Unavailable DCs
+                        </span>
+
+                        <span class="domain-card-number danger">
+                            @domainDashboard.UnavailableDCs
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
     }
 
 </div>
 
-@code {
 
+@code
+{
     private DashboardMainDTO? dashboard;
+
+    private DashboardDomainDTO? domainDashboard;
+
 
     protected override async Task OnInitializedAsync()
     {
-        dashboard = await DashboardService.GetMainDashboardAsync();
+        // Get main dashboard information
+
+        dashboard =
+            await DashboardService.GetMainDashboardAsync();
+
+
+        // Get domain information
+
+        domainDashboard =
+            await DashboardService.GetDomainDashboardAsync("HQ");
+    }
+    private string GetDomainHealthStatus()
+    {
+        if (domainDashboard is null)
+            return "Unknown";
+
+        if (domainDashboard.NumberOfDCs == 0)
+            return "Unknown";
+
+        if (domainDashboard.UnavailableDCs == domainDashboard.NumberOfDCs)
+            return "Critical";
+
+        if (domainDashboard.UnavailableDCs > 0)
+            return "Warning";
+
+        return "Healthy";
+    }
+
+    private string GetDomainHealthIcon()
+    {
+        return GetDomainHealthStatus() switch
+        {
+            "Healthy" => "●",
+            "Warning" => "●",
+            "Critical" => "●",
+            _ => "●"
+        };
+    }
+
+    private string GetDomainHealthClass()
+    {
+        return GetDomainHealthStatus() switch
+        {
+            "Healthy" => "healthy",
+            "Warning" => "warning",
+            "Critical" => "critical",
+            _ => "unknown"
+        };
     }
 }

@@ -16,4 +16,9 @@ public class DashboardService
         return await _httpClient.GetFromJsonAsync<DashboardMainDTO>(
             "dashboard/main");
     }
+    public async Task<DashboardDomainDTO?> GetDomainDashboardAsync(string domainName)
+    {
+        return await _httpClient.GetFromJsonAsync<DashboardDomainDTO>(
+            $"dashboard/domain/{domainName}");
+    }
 }

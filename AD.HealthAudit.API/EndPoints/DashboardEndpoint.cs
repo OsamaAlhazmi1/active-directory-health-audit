@@ -64,8 +64,9 @@ public static class DashboardEndpoint
 
             if (domain == null)
                 return Results.NotFound($"Domain {domainName} Not Found ");
+            
 
-
+        
             int numberOfDCs = await dbcontext.DomainController
                 .CountAsync(dc => dc.DomainID == domain.Id);
 

@@ -72,3 +72,80 @@
 .loading {
     padding: 30px;
 }
+.domain-section {
+    margin-top: 30px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.section-header p {
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.health-badge {
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.health-badge.healthy {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.health-badge.warning {
+    background: #fef3c7;
+    color: #ca8a04;
+}
+
+.health-badge.critical {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.health-badge.unknown {
+    background: #e5e7eb;
+    color: #6b7280;
+}
+
+.domain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.domain-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.domain-card-title {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.domain-card-number {
+    font-size: 28px;
+    font-weight: 700;
+}
