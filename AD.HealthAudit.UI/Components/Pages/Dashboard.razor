@@ -7,27 +7,119 @@
 
 <PageTitle>Dashboard</PageTitle>
 
-<h1>Dashboard</h1>
+<div class="dashboard">
 
-@if (dashboard is null)
-{
-    <p>Loading dashboard...</p>
-}
-else
-{
-    <h2>Overview</h2>
+    <div class="dashboard-header">
+        <div>
+            <h1>Active Directory Health</h1>
+            <p>Overview of your Active Directory environment</p>
+        </div>
+    </div>
 
-    <p>Total Users: @dashboard.NumberOfUsers</p>
-    <p>Enabled Users: @dashboard.EnabledUsers</p>
-    <p>Disabled Users: @dashboard.DisabledUsers</p>
-    <p>Expired Passwords: @dashboard.ExpiredPasswords</p>
+    @if (dashboard is null)
+    {
+        <div class="loading">
+            <p>Loading dashboard...</p>
+        </div>
+    }
+    else
+    {
+        <div class="stats-grid">
 
-    <p>Total Computers: @dashboard.NumberOfComputers</p>
-    <p>Enabled Computers: @dashboard.EnabledComputers</p>
-    <p>Disabled Computers: @dashboard.DisabledComputers</p>
+            <!-- Users -->
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span>Users</span>
+                    <span class="stat-icon">👤</span>
+                </div>
 
-    <p>Total Groups: @dashboard.NumberOfGroups</p>
-}
+                <div class="stat-number">
+                    @dashboard.NumberOfUsers
+                </div>
+
+                <div class="stat-details">
+                    <span class="success">
+                        @dashboard.EnabledUsers Enabled
+                    </span>
+
+                    <span class="danger">
+                        @dashboard.DisabledUsers Disabled
+                    </span>
+                </div>
+            </div>
+
+
+            <!-- Computers -->
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span>Computers</span>
+                    <span class="stat-icon">💻</span>
+                </div>
+
+                <div class="stat-number">
+                    @dashboard.NumberOfComputers
+                </div>
+
+                <div class="stat-details">
+                    <span class="success">
+                        @dashboard.EnabledComputers Enabled
+                    </span>
+
+                    <span class="danger">
+                        @dashboard.DisabledComputers Disabled
+                    </span>
+                </div>
+            </div>
+
+
+            <!-- Groups -->
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span>Groups</span>
+                    <span class="stat-icon">👥</span>
+                </div>
+
+                <div class="stat-number">
+                    @dashboard.NumberOfGroups
+                </div>
+
+                <div class="stat-details">
+                    Active Directory Groups
+                </div>
+            </div>
+
+
+            <!-- Expired Passwords -->
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <span>Expired Passwords</span>
+                    <span class="stat-icon">🔐</span>
+                </div>
+
+                <div class="stat-number">
+                    @dashboard.ExpiredPasswords
+                </div>
+
+                <div class="stat-details">
+                    @if (dashboard.ExpiredPasswords == 0)
+                    {
+                        <span class="success">
+                            ✓ No expired passwords
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="warning">
+                            ⚠ Users require attention
+                        </span>
+                    }
+                </div>
+            </div>
+
+        </div>
+    }
+
+</div>
 
 @code {
 
