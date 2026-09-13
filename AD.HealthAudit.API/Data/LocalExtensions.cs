@@ -14,7 +14,9 @@ public static class LocalExtensions
              connectionString,
              optionsAction: option => option.UseSeeding((dbcontext, _) =>
              {
-                 SeedUsersGroupsAndComputers((LocalContext)dbcontext);
+                SeedUsersGroupsAndComputers((LocalContext)dbcontext);
+                SeedDomainAndDCs((LocalContext)dbcontext); 
+
              })
         );
 
@@ -113,5 +115,53 @@ public static class LocalExtensions
         context.Users.AddRange(users);
         context.SaveChanges(); 
 
+    }
+        private static void SeedDomainAndDCs(LocalContext context)
+    {
+        if (context.Set<Domain>().Count() > 1)
+            return;
+        if (context.Set<DomainController>().Count()>1)
+            return; 
+
+
+        var HQ_Domain = new Domain()
+        {
+            Name = "HQ", 
+            Status= Domain.DomainLDAPStatus.Available
+        };
+
+
+
+        var DCsList = new List<DomainController>
+        {
+            new()
+            {
+                Name = "HQ_DC1",
+                Domain = HQ_Domain , 
+                ConnectivityStatus = DomainController.DC_ConnectivityStatus.Available
+
+            },
+            new()
+            {
+                Name = "HQ_DC2",
+                Domain = HQ_Domain , 
+                ConnectivityStatus = DomainController.DC_ConnectivityStatus.Available
+
+            },
+            new()
+            {
+                Name = "HQ_DC3",
+                Domain = HQ_Domain , 
+                ConnectivityStatus = DomainController.DC_ConnectivityStatus.Unavailable
+
+            },
+            
+            
+        }; 
+        context.Domians.Add(HQ_Domain);
+        context.DomainController.AddRange(DCsList); 
+        context.SaveChanges();
+
+        
     }
 }

@@ -30,10 +30,10 @@ public static class DashboardEndpoint
 
             int numberOfComputers = await dbcontext.Computers.CountAsync();
 
-            int enabledComputers= await dbcontext.Computers
+            int enabledComputers = await dbcontext.Computers
                 .CountAsync(u => u.Status == Computer.ComputerStatus.Enabled);
 
-            int disabledComputers= await dbcontext.Computers
+            int disabledComputers = await dbcontext.Computers
                 .CountAsync(u => u.Status == Computer.ComputerStatus.Disabled);
 
 
@@ -58,28 +58,42 @@ public static class DashboardEndpoint
         });
 
 
-        groupName.MapGet("/domianDCs" , async (DomainDTO domainDTO,LocalContext dbcontext) =>
+        groupName.MapGet("/domain/{domainName}", async (string domainName, LocalContext dbcontext) =>
         {
-            int numberOfDCs = await dbcontext.Domians.CountAsync( u => u.Name == domainDTO.DomainName ); 
+            var domain = dbcontext.Domians.FirstOrDefaultAsync(d => d.Name == domainName);
+
+            if (domain == null)
+                return Results.NotFound($"Domain {domainName} Not Found ");
 
 
-            int availableDCs= await dbcontext.Domians
-                .CountAsync(u => u.Status == Domain.DomainLDAPStatus.Available);
-            
-            int unavailableDCs = await dbcontext.Domians
-                .CountAsync(u => u.Status == Domain.DomainLDAPStatus.Unavailable);
+            int numberOfDCs = await dbcontext.DomainController
+                .CountAsync(dc => dc.DomainID == domain.Id);
+
+            int availableDCs = await dbcontext.DomainController
+                .CountAsync(dc =>
+                    dc.DomainID == domain.Id &&
+                    dc.ConnectivityStatus ==
+                        DomainController.DC_ConnectivityStatus.Available);
+
+            int unavailableDCs = await dbcontext.DomainController
+                .CountAsync(dc =>
+                    dc.DomainID == domain.Id &&
+                    dc.ConnectivityStatus ==
+                        DomainController.DC_ConnectivityStatus.Unavailable);
 
 
-            var dto = new DashboardDomainDTO (
-                numberOfDCs, 
+            var dto = new DashboardDomainDTO(
+                numberOfDCs,
                 availableDCs,
                 unavailableDCs
             );
 
+            return Results.Ok(dto);
+
 
         });
 
-    
+
 
 
     }
