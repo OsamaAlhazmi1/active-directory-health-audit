@@ -34,7 +34,7 @@ namespace AD.HealthAudit.API.Data.Migrations
                     b.ToTable("Computers");
                 });
 
-            modelBuilder.Entity("AD.HealthAudit.API.Models.Domian", b =>
+            modelBuilder.Entity("AD.HealthAudit.API.Models.Domain", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,6 +50,29 @@ namespace AD.HealthAudit.API.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Domians");
+                });
+
+            modelBuilder.Entity("AD.HealthAudit.API.Models.DomainController", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ConnectivityStatus")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DomainID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DomainID");
+
+                    b.ToTable("DomainController");
                 });
 
             modelBuilder.Entity("AD.HealthAudit.API.Models.Group", b =>
@@ -86,6 +109,22 @@ namespace AD.HealthAudit.API.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("AD.HealthAudit.API.Models.DomainController", b =>
+                {
+                    b.HasOne("AD.HealthAudit.API.Models.Domain", "Domain")
+                        .WithMany("DomainControllers")
+                        .HasForeignKey("DomainID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Domain");
+                });
+
+            modelBuilder.Entity("AD.HealthAudit.API.Models.Domain", b =>
+                {
+                    b.Navigation("DomainControllers");
                 });
 #pragma warning restore 612, 618
         }

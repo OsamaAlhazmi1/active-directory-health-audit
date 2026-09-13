@@ -58,9 +58,24 @@ public static class DashboardEndpoint
         });
 
 
-        groupName.MapGet("/domian" , (LocalContext dbcontext) =>
+        groupName.MapGet("/domianDCs" , async (DomainDTO domainDTO,LocalContext dbcontext) =>
         {
+            int numberOfDCs = await dbcontext.Domians.CountAsync( u => u.Name == domainDTO.DomainName ); 
+
+
+            int availableDCs= await dbcontext.Domians
+                .CountAsync(u => u.Status == Domain.DomainLDAPStatus.Available);
             
+            int unavailableDCs = await dbcontext.Domians
+                .CountAsync(u => u.Status == Domain.DomainLDAPStatus.Unavailable);
+
+
+            var dto = new DashboardDomainDTO (
+                numberOfDCs, 
+                availableDCs,
+                unavailableDCs
+            );
+
 
         });
 

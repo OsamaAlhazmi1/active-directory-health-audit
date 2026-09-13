@@ -65,6 +65,32 @@ namespace AD.HealthAudit.API.Data.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "DomainController",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    DomainID = table.Column<int>(type: "INTEGER", nullable: false),
+                    ConnectivityStatus = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DomainController", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DomainController_Domians_DomainID",
+                        column: x => x.DomainID,
+                        principalTable: "Domians",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DomainController_DomainID",
+                table: "DomainController",
+                column: "DomainID");
         }
 
         /// <inheritdoc />
@@ -74,13 +100,16 @@ namespace AD.HealthAudit.API.Data.Migrations
                 name: "Computers");
 
             migrationBuilder.DropTable(
-                name: "Domians");
+                name: "DomainController");
 
             migrationBuilder.DropTable(
                 name: "Groups");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Domians");
         }
     }
 }

@@ -1,15 +1,10 @@
 namespace AD.HealthAudit.API.DTOs;
 
-public record DashboardMainDTO
+public record DashboardDomainDTO
 (
-    int NumberOfUsers,
-    int NumberEnabledUsers,
-    int NumberDisabledUsers,
-    int ExpiredPasswords,
-    int NumberOfComputers,
-    int NumberEnabledComputers,
-    int NumberDisabledComputers,
-    int NumberOfGroups
+    int NumberOfDCs , 
+    int NumberOfAvailableDCs,
+    int NumberOfUnavailableDCs
 );
 
 

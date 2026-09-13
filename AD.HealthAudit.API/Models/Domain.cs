@@ -1,12 +1,13 @@
 namespace AD.HealthAudit.API.Models;
 
-public class Domian
+public class Domain
 {
+
 
     public enum DomainLDAPStatus
     {
-        Available, 
-        Unavailable 
+        Available,
+        Unavailable
 
     }
 
@@ -14,7 +15,8 @@ public class Domian
 
     public string Name { get; set; } = "";
 
-    public DomainLDAPStatus Status{get; set;} 
-    
+    public DomainLDAPStatus Status { get; set; }
+
+    public ICollection<DomainController> DomainControllers { get; set; } = [];
 
 }
