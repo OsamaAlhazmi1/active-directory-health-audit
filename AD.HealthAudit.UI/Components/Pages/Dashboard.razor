@@ -1,0 +1,40 @@
+@page "/dashboard"
+
+@using AD.HealthAudit.UI.DTOs
+@using AD.HealthAudit.UI.Services
+
+@inject DashboardService DashboardService
+
+<PageTitle>Dashboard</PageTitle>
+
+<h1>Dashboard</h1>
+
+@if (dashboard is null)
+{
+    <p>Loading dashboard...</p>
+}
+else
+{
+    <h2>Overview</h2>
+
+    <p>Total Users: @dashboard.NumberOfUsers</p>
+    <p>Enabled Users: @dashboard.EnabledUsers</p>
+    <p>Disabled Users: @dashboard.DisabledUsers</p>
+    <p>Expired Passwords: @dashboard.ExpiredPasswords</p>
+
+    <p>Total Computers: @dashboard.NumberOfComputers</p>
+    <p>Enabled Computers: @dashboard.EnabledComputers</p>
+    <p>Disabled Computers: @dashboard.DisabledComputers</p>
+
+    <p>Total Groups: @dashboard.NumberOfGroups</p>
+}
+
+@code {
+
+    private DashboardMainDTO? dashboard;
+
+    protected override async Task OnInitializedAsync()
+    {
+        dashboard = await DashboardService.GetMainDashboardAsync();
+    }
+}

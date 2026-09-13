@@ -60,7 +60,7 @@ public static class DashboardEndpoint
 
         groupName.MapGet("/domain/{domainName}", async (string domainName, LocalContext dbcontext) =>
         {
-            var domain = dbcontext.Domain.FirstOrDefaultAsync(d => d.Name == domainName);
+            var domain = await dbcontext.Domain.FirstOrDefaultAsync(d => d.Name == domainName);
 
             if (domain == null)
                 return Results.NotFound($"Domain {domainName} Not Found ");
