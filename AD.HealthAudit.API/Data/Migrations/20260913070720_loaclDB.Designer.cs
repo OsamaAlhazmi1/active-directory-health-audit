@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AD.HealthAudit.API.Data.Migrations
 {
     [DbContext(typeof(LocalContext))]
-    [Migration("20260909081121_loaclDB")]
+    [Migration("20260913070720_loaclDB")]
     partial class loaclDB
     {
         /// <inheritdoc />
@@ -52,7 +52,7 @@ namespace AD.HealthAudit.API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Domians");
+                    b.ToTable("Domain");
                 });
 
             modelBuilder.Entity("AD.HealthAudit.API.Models.DomainController", b =>

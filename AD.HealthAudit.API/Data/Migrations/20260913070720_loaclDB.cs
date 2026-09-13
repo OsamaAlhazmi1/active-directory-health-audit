@@ -25,7 +25,7 @@ namespace AD.HealthAudit.API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Domians",
+                name: "Domain",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -35,7 +35,7 @@ namespace AD.HealthAudit.API.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Domians", x => x.Id);
+                    table.PrimaryKey("PK_Domain", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,9 +80,9 @@ namespace AD.HealthAudit.API.Data.Migrations
                 {
                     table.PrimaryKey("PK_DomainController", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DomainController_Domians_DomainID",
+                        name: "FK_DomainController_Domain_DomainID",
                         column: x => x.DomainID,
-                        principalTable: "Domians",
+                        principalTable: "Domain",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -109,7 +109,7 @@ namespace AD.HealthAudit.API.Data.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Domians");
+                name: "Domain");
         }
     }
 }

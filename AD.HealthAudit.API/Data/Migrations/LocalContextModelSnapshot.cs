@@ -49,7 +49,7 @@ namespace AD.HealthAudit.API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Domians");
+                    b.ToTable("Domain");
                 });
 
             modelBuilder.Entity("AD.HealthAudit.API.Models.DomainController", b =>

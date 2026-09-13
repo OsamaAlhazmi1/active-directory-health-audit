@@ -158,7 +158,7 @@ public static class LocalExtensions
             
             
         }; 
-        context.Domians.Add(HQ_Domain);
+        context.Domain.Add(HQ_Domain);
         context.DomainController.AddRange(DCsList); 
         context.SaveChanges();
 
