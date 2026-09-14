@@ -64,9 +64,9 @@ public static class DashboardEndpoint
 
             if (domain == null)
                 return Results.NotFound($"Domain {domainName} Not Found ");
-            
 
-        
+
+
             int numberOfDCs = await dbcontext.DomainController
                 .CountAsync(dc => dc.DomainID == domain.Id);
 
@@ -93,6 +93,26 @@ public static class DashboardEndpoint
 
 
         });
+
+        groupName.MapGet("/domain/{domainName}/controllers", async (string domainName, LocalContext dbcontext) =>
+        {
+            var domain = await dbcontext.Domain.FirstOrDefaultAsync(d => d.Name == domainName);
+
+            if (domain == null)
+                return Results.NotFound($"Domain {domainName} Not Found");
+
+            var DCsList = await dbcontext.DomainController
+                .Where(dc => dc.DomainID == domain.Id)
+                .Select(dc => new DomainControllerDTO(
+                    dc.Id,
+                    dc.Name,
+                    dc.ConnectivityStatus.ToString()
+                ))
+                .ToListAsync();
+
+            return Results.Ok(DCsList);
+        });
+
 
 
 

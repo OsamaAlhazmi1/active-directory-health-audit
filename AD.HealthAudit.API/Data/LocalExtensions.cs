@@ -152,7 +152,7 @@ public static class LocalExtensions
             {
                 Name = "HQ_DC3",
                 Domain = HQ_Domain , 
-                ConnectivityStatus = DomainController.DC_ConnectivityStatus.Available
+                ConnectivityStatus = DomainController.DC_ConnectivityStatus.Unavailable
 
             },
             

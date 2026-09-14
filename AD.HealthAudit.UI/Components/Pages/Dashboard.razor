@@ -21,6 +21,8 @@
 
     @if (dashboard is null)
     {
+        <!-- ================= LOADING ================= -->
+
         <div class="loading">
             <p>Loading dashboard...</p>
         </div>
@@ -156,11 +158,14 @@
                     </div>
 
                     <span class="health-badge @GetDomainHealthClass()">
-                        @GetDomainHealthIcon() @GetDomainHealthStatus()
+                        @GetDomainHealthIcon()
+                        @GetDomainHealthStatus()
                     </span>
 
                 </div>
 
+
+                <!-- DOMAIN STATISTICS -->
 
                 <div class="domain-grid">
 
@@ -213,6 +218,79 @@
             </div>
         }
 
+
+        <!-- ================= DOMAIN CONTROLLERS ================= -->
+
+        @if (domainControllers.Any())
+        {
+            <div class="controllers-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Domain Controllers</h2>
+                        <p>Controllers belonging to the HQ domain</p>
+                    </div>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table class="controllers-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var controller in domainControllers)
+                            {
+                                <tr>
+
+                                    <td>
+                                        <strong>
+                                            @controller.Name
+                                        </strong>
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (controller.ConnectivityStatus == "Available")
+                                        {
+                                            <span class="dc-status available">
+                                                ● Available
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="dc-status unavailable">
+                                                ● Unavailable
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+        }
+
     }
 
 </div>
@@ -220,10 +298,16 @@
 
 @code
 {
+    // ================= DASHBOARD DATA =================
+
     private DashboardMainDTO? dashboard;
 
     private DashboardDomainDTO? domainDashboard;
 
+    private List<DomainControllerDTO> domainControllers = new();
+
+
+    // ================= INITIALIZATION =================
 
     protected override async Task OnInitializedAsync()
     {
@@ -237,23 +321,41 @@
 
         domainDashboard =
             await DashboardService.GetDomainDashboardAsync("HQ");
+
+
+        // Get domain controllers
+
+        domainControllers =
+            await DashboardService.GetDomainControllersAsync("HQ");
     }
+
+
+    // ================= DOMAIN HEALTH =================
+
     private string GetDomainHealthStatus()
     {
         if (domainDashboard is null)
             return "Unknown";
 
+
         if (domainDashboard.NumberOfDCs == 0)
             return "Unknown";
 
-        if (domainDashboard.UnavailableDCs == domainDashboard.NumberOfDCs)
+
+        if (domainDashboard.UnavailableDCs ==
+            domainDashboard.NumberOfDCs)
+        {
             return "Critical";
+        }
+
 
         if (domainDashboard.UnavailableDCs > 0)
             return "Warning";
 
+
         return "Healthy";
     }
+
 
     private string GetDomainHealthIcon()
     {
@@ -265,6 +367,7 @@
             _ => "●"
         };
     }
+
 
     private string GetDomainHealthClass()
     {
