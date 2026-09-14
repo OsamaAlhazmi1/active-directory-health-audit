@@ -1,0 +1,4 @@
+GET  http://localhost:5017/domain/1
+
+###
+GET  http://localhost:5017/dashboard/domain/HQ

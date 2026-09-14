@@ -16,16 +16,20 @@ public class DashboardService
         return await _httpClient.GetFromJsonAsync<DashboardMainDTO>(
             "dashboard/main");
     }
-    public async Task<DashboardDomainDTO?> GetDomainDashboardAsync(string domainName)
+    public async Task<DashboardDomainDTO?> GetDomainDashboardAsync(int domainId)
     {
         return await _httpClient.GetFromJsonAsync<DashboardDomainDTO>(
-            $"dashboard/domain/{domainName}");
+            $"dashboard/domain/{domainId}");
     }
-    public async Task<List<DomainControllerDTO>> GetDomainControllersAsync(
-    string domainName)
+    public async Task<DomainDTO?> GetDomainAsync(int domainId)
+    {
+        return await _httpClient.GetFromJsonAsync<DomainDTO>(
+            $"domain/{domainId}");
+    }
+    public async Task<List<DomainControllerDTO>> GetDomainControllersAsync(int domainID)
     {
         return await _httpClient.GetFromJsonAsync<List<DomainControllerDTO>>(
-            $"dashboard/domain/{domainName}/controllers")
+            $"dashboard/domain/{domainID}/controllers")
             ?? [];
     }
 }

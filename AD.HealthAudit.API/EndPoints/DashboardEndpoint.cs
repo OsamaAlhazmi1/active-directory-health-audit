@@ -58,12 +58,12 @@ public static class DashboardEndpoint
         });
 
 
-        groupName.MapGet("/domain/{domainName}", async (string domainName, LocalContext dbcontext) =>
+        groupName.MapGet("/domain/{domainID}", async (int domainID, LocalContext dbcontext) =>
         {
-            var domain = await dbcontext.Domain.FirstOrDefaultAsync(d => d.Name == domainName);
+            var domain = await dbcontext.Domain.FirstOrDefaultAsync(d => d.Id == domainID);
 
             if (domain == null)
-                return Results.NotFound($"Domain {domainName} Not Found ");
+                return Results.NotFound($"Domain {domainID} Not Found ");
 
 
 
@@ -94,12 +94,12 @@ public static class DashboardEndpoint
 
         });
 
-        groupName.MapGet("/domain/{domainName}/controllers", async (string domainName, LocalContext dbcontext) =>
+        groupName.MapGet("/domain/{domainID}/controllers", async (int domainID , LocalContext dbcontext) =>
         {
-            var domain = await dbcontext.Domain.FirstOrDefaultAsync(d => d.Name == domainName);
+            var domain = await dbcontext.Domain.FirstOrDefaultAsync(d => d.Id == domainID);
 
             if (domain == null)
-                return Results.NotFound($"Domain {domainName} Not Found");
+                return Results.NotFound($"Domain {domainID} Not Found");
 
             var DCsList = await dbcontext.DomainController
                 .Where(dc => dc.DomainID == domain.Id)
