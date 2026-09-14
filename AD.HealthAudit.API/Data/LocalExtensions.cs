@@ -127,7 +127,9 @@ public static class LocalExtensions
         var HQ_Domain = new Domain()
         {
             Name = "HQ", 
-            Status= Domain.DomainLDAPStatus.Available
+            Status= Domain.DomainLDAPStatus.Available,
+            
+            
         };
 
 

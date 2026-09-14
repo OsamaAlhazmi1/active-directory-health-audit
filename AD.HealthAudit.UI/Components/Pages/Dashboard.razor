@@ -1,0 +1,382 @@
+@page "/dashboard"
+
+@using AD.HealthAudit.UI.DTOs
+@using AD.HealthAudit.UI.Services
+
+@inject DashboardService DashboardService
+
+<PageTitle>Dashboard</PageTitle>
+
+<div class="dashboard">
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="dashboard-header">
+        <div>
+            <h1>Active Directory Health</h1>
+            <p>Overview of your Active Directory environment</p>
+        </div>
+    </div>
+
+
+    @if (dashboard is null)
+    {
+        <!-- ================= LOADING ================= -->
+
+        <div class="loading">
+            <p>Loading dashboard...</p>
+        </div>
+    }
+    else
+    {
+        <!-- ================= MAIN STATISTICS ================= -->
+
+        <div class="stats-grid">
+
+            <!-- USERS -->
+
+            <div class="stat-card">
+
+                <div class="stat-card-header">
+                    <span>Users</span>
+                    <span class="stat-icon">👤</span>
+                </div>
+
+                <div class="stat-number">
+                    @dashboard.NumberOfUsers
+                </div>
+
+                <div class="stat-details">
+
+                    <span class="success">
+                        @dashboard.EnabledUsers Enabled
+                    </span>
+
+                    <span class="danger">
+                        @dashboard.DisabledUsers Disabled
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPUTERS -->
+
+            <div class="stat-card">
+
+                <div class="stat-card-header">
+                    <span>Computers</span>
+                    <span class="stat-icon">💻</span>
+                </div>
+
+                <div class="stat-number">
+                    @dashboard.NumberOfComputers
+                </div>
+
+                <div class="stat-details">
+
+                    <span class="success">
+                        @dashboard.EnabledComputers Enabled
+                    </span>
+
+                    <span class="danger">
+                        @dashboard.DisabledComputers Disabled
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- GROUPS -->
+
+            <div class="stat-card">
+
+                <div class="stat-card-header">
+                    <span>Groups</span>
+                    <span class="stat-icon">👥</span>
+                </div>
+
+                <div class="stat-number">
+                    @dashboard.NumberOfGroups
+                </div>
+
+                <div class="stat-details">
+                    Active Directory Groups
+                </div>
+
+            </div>
+
+
+            <!-- EXPIRED PASSWORDS -->
+
+            <div class="stat-card">
+
+                <div class="stat-card-header">
+                    <span>Expired Passwords</span>
+                    <span class="stat-icon">🔐</span>
+                </div>
+
+                <div class="stat-number">
+                    @dashboard.ExpiredPasswords
+                </div>
+
+                <div class="stat-details">
+
+                    @if (dashboard.ExpiredPasswords == 0)
+                    {
+                        <span class="success">
+                            ✓ No expired passwords
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="warning">
+                            ⚠ Users require attention
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= DOMAIN HEALTH ================= -->
+
+        @if (domainDashboard is not null)
+        {
+            <div class="domain-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Domain Health</h2>
+                        <p>HQ Active Directory domain</p>
+                    </div>
+
+                    <span class="health-badge @GetDomainHealthClass()">
+                        @GetDomainHealthIcon()
+                        @GetDomainHealthStatus()
+                    </span>
+
+                </div>
+
+
+                <!-- DOMAIN STATISTICS -->
+
+                <div class="domain-grid">
+
+                    <!-- TOTAL DCs -->
+
+                    <div class="domain-card">
+
+                        <span class="domain-card-title">
+                            Domain Controllers
+                        </span>
+
+                        <span class="domain-card-number">
+                            @domainDashboard.NumberOfDCs
+                        </span>
+
+                    </div>
+
+
+                    <!-- AVAILABLE DCs -->
+
+                    <div class="domain-card">
+
+                        <span class="domain-card-title">
+                            Available DCs
+                        </span>
+
+                        <span class="domain-card-number success">
+                            @domainDashboard.AvailableDCs
+                        </span>
+
+                    </div>
+
+
+                    <!-- UNAVAILABLE DCs -->
+
+                    <div class="domain-card">
+
+                        <span class="domain-card-title">
+                            Unavailable DCs
+                        </span>
+
+                        <span class="domain-card-number danger">
+                            @domainDashboard.UnavailableDCs
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+
+        <!-- ================= DOMAIN CONTROLLERS ================= -->
+
+        @if (domainControllers.Any())
+        {
+            <div class="controllers-section">
+
+                <div class="section-header">
+
+                    <div>
+                        <h2>Domain Controllers</h2>
+                        <p>Controllers belonging to the HQ domain</p>
+                    </div>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table class="controllers-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @foreach (var controller in domainControllers)
+                            {
+                                <tr>
+
+                                    <td>
+                                        <strong>
+                                            @controller.Name
+                                        </strong>
+                                    </td>
+
+
+                                    <td>
+
+                                        @if (controller.ConnectivityStatus == "Available")
+                                        {
+                                            <span class="dc-status available">
+                                                ● Available
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="dc-status unavailable">
+                                                ● Unavailable
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+        }
+
+    }
+
+</div>
+
+
+@code
+{
+    // ================= DASHBOARD DATA =================
+
+    private DashboardMainDTO? dashboard;
+
+    private DashboardDomainDTO? domainDashboard;
+
+    private List<DomainControllerDTO> domainControllers = new();
+
+
+    // ================= INITIALIZATION =================
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Get main dashboard information
+
+        dashboard =
+            await DashboardService.GetMainDashboardAsync();
+
+
+        // Get domain information
+
+        domainDashboard =
+            await DashboardService.GetDomainDashboardAsync("HQ");
+
+
+        // Get domain controllers
+
+        domainControllers =
+            await DashboardService.GetDomainControllersAsync("HQ");
+    }
+
+
+    // ================= DOMAIN HEALTH =================
+
+    private string GetDomainHealthStatus()
+    {
+        if (domainDashboard is null)
+            return "Unknown";
+
+
+        if (domainDashboard.NumberOfDCs == 0)
+            return "Unknown";
+
+
+        if (domainDashboard.UnavailableDCs ==
+            domainDashboard.NumberOfDCs)
+        {
+            return "Critical";
+        }
+
+
+        if (domainDashboard.UnavailableDCs > 0)
+            return "Warning";
+
+
+        return "Healthy";
+    }
+
+
+    private string GetDomainHealthIcon()
+    {
+        return GetDomainHealthStatus() switch
+        {
+            "Healthy" => "●",
+            "Warning" => "●",
+            "Critical" => "●",
+            _ => "●"
+        };
+    }
+
+
+    private string GetDomainHealthClass()
+    {
+        return GetDomainHealthStatus() switch
+        {
+            "Healthy" => "healthy",
+            "Warning" => "warning",
+            "Critical" => "critical",
+            _ => "unknown"
+        };
+    }
+}

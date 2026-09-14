@@ -2,3 +2,5 @@ GET  http://localhost:5017/dashboard/main
 
 ###
 GET  http://localhost:5017/dashboard/domain/HQ
+###
+GET  http://localhost:5017/dashboard/domain/HQ/controllers

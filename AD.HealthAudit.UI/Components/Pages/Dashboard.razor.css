@@ -1,0 +1,199 @@
+.dashboard {
+    padding: 30px;
+}
+
+.dashboard-header {
+    margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.dashboard-header p {
+    margin-top: 8px;
+    color: #6b7280;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    color: #6b7280;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.stat-icon {
+    font-size: 24px;
+}
+
+.stat-number {
+    margin-top: 15px;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.stat-details {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+.success {
+    color: #15803d;
+}
+
+.warning {
+    color: #ca8a04;
+}
+
+.danger {
+    color: #dc2626;
+}
+
+.loading {
+    padding: 30px;
+}
+.domain-section {
+    margin-top: 30px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 21px;
+}
+
+.section-header p {
+    margin-top: 6px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.health-badge {
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.health-badge.healthy {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.health-badge.warning {
+    background: #fef3c7;
+    color: #ca8a04;
+}
+
+.health-badge.critical {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.health-badge.unknown {
+    background: #e5e7eb;
+    color: #6b7280;
+}
+
+.domain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.domain-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.domain-card-title {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.domain-card-number {
+    font-size: 28px;
+    font-weight: 700;
+}
+.controllers-section {
+    margin-top: 20px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.controllers-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.controllers-table th {
+    text-align: left;
+    padding: 14px;
+    border-bottom: 1px solid #e5e7eb;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.controllers-table td {
+    padding: 16px 14px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+}
+
+.controllers-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.dc-status {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.dc-status.available {
+    color: #15803d;
+}
+
+.dc-status.unavailable {
+    color: #dc2626;
+}
