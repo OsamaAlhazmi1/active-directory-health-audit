@@ -154,7 +154,7 @@
 
                     <div>
                         <h2>Domain Health</h2>
-                        <p>HQ Active Directory domain</p>
+                        <p>@domain?.DomainName Active Directory domain</p>
                     </div>
 
                     <span class="health-badge @GetDomainHealthClass()">
@@ -229,7 +229,7 @@
 
                     <div>
                         <h2>Domain Controllers</h2>
-                        <p>Controllers belonging to the HQ domain</p>
+                        <p>Controllers belonging to the @domain?.DomainName </p>
                     </div>
 
                 </div>
@@ -305,6 +305,7 @@
     private DashboardDomainDTO? domainDashboard;
 
     private List<DomainControllerDTO> domainControllers = new();
+    private DomainDTO? domain;
 
 
     // ================= INITIALIZATION =================
@@ -313,20 +314,16 @@
     {
         // Get main dashboard information
 
-        dashboard =
-            await DashboardService.GetMainDashboardAsync();
+        dashboard = await DashboardService.GetMainDashboardAsync();
 
 
-        // Get domain information
+        domain = await DashboardService.GetDomainAsync(domainId: 1);
 
-        domainDashboard =
-            await DashboardService.GetDomainDashboardAsync("HQ");
-
-
-        // Get domain controllers
-
-        domainControllers =
-            await DashboardService.GetDomainControllersAsync("HQ");
+        if (domain is not null)
+        {
+            domainDashboard = await DashboardService.GetDomainDashboardAsync(domain.Id);
+            domainControllers = await DashboardService.GetDomainControllersAsync(domain.Id);
+        }
     }
 
 

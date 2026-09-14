@@ -1,4 +1,4 @@
-namespace AD.HealthAudit.API.DTOs;
+namespace AD.HealthAudit.UI.DTOs;
 
 public record DashboardMainDTO
 (

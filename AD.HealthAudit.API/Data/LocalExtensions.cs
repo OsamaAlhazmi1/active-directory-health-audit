@@ -126,10 +126,8 @@ public static class LocalExtensions
 
         var HQ_Domain = new Domain()
         {
-            Name = "HQ", 
-            Status= Domain.DomainLDAPStatus.Available,
-            
-            
+            Name = "LAN", 
+            Status= Domain.DomainLDAPStatus.Available
         };
 
 
@@ -138,21 +136,21 @@ public static class LocalExtensions
         {
             new()
             {
-                Name = "HQ_DC1",
+                Name = "LAN_DC1",
                 Domain = HQ_Domain , 
                 ConnectivityStatus = DomainController.DC_ConnectivityStatus.Available
 
             },
             new()
             {
-                Name = "HQ_DC2",
+                Name = "LAN_DC2",
                 Domain = HQ_Domain , 
                 ConnectivityStatus = DomainController.DC_ConnectivityStatus.Available
 
             },
             new()
             {
-                Name = "HQ_DC3",
+                Name = "LAN_DC3",
                 Domain = HQ_Domain , 
                 ConnectivityStatus = DomainController.DC_ConnectivityStatus.Unavailable
 
