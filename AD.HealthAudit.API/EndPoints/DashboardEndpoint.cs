@@ -115,18 +115,7 @@ public static class DashboardEndpoint
 
 
 
-            var DCsList = await dbcontext.DomainController
-                .Where(dc => dc.DomainID == domain.Id)
-                .Select(dc => new DomainControllerDTO(
-                dc.Id,
-                dc.Name,
-                dc.ConnectivityStatus.ToString()
-                )).ToListAsync();
 
-
-            return Results.Ok(DCsList);
-
-        });
 
 
     }
